@@ -9,6 +9,12 @@ $light-grayish-blue: hsl(220, 16%, 96%);
 $very-light-gray: hsl(0, 0%, 98%);
 $white: hsl(0, 0%, 100%);
 
+@mixin m-q($arg) {
+  @media screen and (max-width: $arg) {
+    @content;
+  }
+}
+
 *,
 *::after,
 *::before {
@@ -53,6 +59,10 @@ a {
   text-transform: capitalize;
   transition: 0.3s;
 
+  @include m-q(850px) {
+    display: none;
+  }
+
   &:hover {
     opacity: 0.9;
   }
@@ -64,26 +74,79 @@ a {
   position: relative;
   z-index: 1;
 
+  @include m-q(650px) {
+    position: fixed;
+    width: 100%;
+  }
+
   &__navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
+  &__nav-trigger{
+    border: none;
+    background: transparent;
+    display: none;
+    cursor: pointer;
+
+    @include m-q(650px) {
+      display: inline-block;
+      &:focus{
+          outline: 1px solid $lime-green; 
+      outline-offset: .5rem;
+      }
+
+    }
+  }
+
   &__nav-list {
     list-style: none;
     display: flex;
+
+    @include m-q(650px) {
+      flex-direction: column;
+      position: absolute;
+      top: 80px;
+      background: $white;
+      width: calc(100% - 4rem);
+      text-align: center;
+      padding: 2rem 0;
+      border-radius: .5rem;
+      transform: scale(0);
+      transition: .3s;
+
+      // &::after{
+      //   content: "";
+      //   position: absolute;
+      //   left: -2rem;
+      //   top: -23px;
+      //   width: calc(100% + 4rem);
+      //   height: 100vh;
+      //   background-image: linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.6));
+      // }
+
+    }
   }
+
+  .navbar__nav-list.active{
+    transform: scale(1);
+  } 
 
   &__nav-item {
     margin: 0 1rem;
 
-    &:first-child {
-      margin-left: 0;
-    }
+    // &:first-child {
+    //   margin-left: 0;
+    // }
 
-    &:last-child {
-      margin-right: 0;
+    // &:last-child {
+    //   margin-right: 0;
+    // }
+
+    @include m-q(650px) {
+      margin: .8rem;
     }
   }
 
@@ -92,6 +155,7 @@ a {
     padding: 0.5rem;
     font-size: 1.6rem;
     position: relative;
+    transition: .3s;
 
     &::after {
       content: "";
@@ -102,10 +166,26 @@ a {
       bottom: -25px;
       background: $gradient;
       transition: 0.3s;
+
+      @include m-q(850px) {
+        bottom: -18px;
+      }
+
+      @include m-q(650px) {
+        bottom: -3px;
+      }
+    }
+
+    @include m-q(650px) {
+      color: $dark-blue;
     }
 
     &:hover::after {
       width: 100%;
+    }
+
+    &:hover{
+      color: $dark-blue;
     }
   }
 }
